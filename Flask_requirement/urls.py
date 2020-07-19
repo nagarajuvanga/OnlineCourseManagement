@@ -37,6 +37,9 @@ urlpatterns = [
     path('login_s/',views.login_s,name="login_s"),
     path('entrol/',views.entrol,name="entrol"),
     path('view_entrol/', views.view_entrol, name="view_entrol"),
-    path('cancel/', views.cancel, name="cancel")
+    path('cancel/', views.cancel, name="cancel"),
+    path('CheckName/',views.CheckName,name="CheckName"),
+    path('CheckContact/',views.CheckContact,name="CheckContact"),
+    path('CheckEmail/',views.CheckEmail,name="CheckEmail"),
 
 ]

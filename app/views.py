@@ -3,8 +3,11 @@ from pyexpat.errors import messages
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 from app.models import Schedule_class, Student,Entrol
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 
 def showIndex(request):
@@ -133,7 +136,7 @@ def view_entrol(request):
         z=Schedule_class.objects.filter(coid=s)
         y.append(z)
 
-    return render(request,"dummy.html",{"raj":y,"naga":n,"en":no})
+    return render(request, "entrol_course.html", {"raj":y, "naga":n, "en":no})
 
 
 def cancel(request):
@@ -144,3 +147,34 @@ def cancel(request):
 
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@method_decorator(csrf_exempt,name='dispatch')
+def CheckName(request):
+    sn=request.POST.get("sname")
+    try:
+        Student.objects.get(sname=sn)
+        res={"error":"Name is Taken"}
+    except Student.DoesNotExist:
+        res={"message":"Name is Available"}
+    return JsonResponse(res)
+
+@method_decorator(csrf_exempt,name='dispatch')
+def CheckContact(request):
+    scont = request.POST.get("sname")
+    try:
+        Student.objects.get(contactno=scont)
+        res = {"error": "Contact is exist try another"}
+    except Student.DoesNotExist:
+        res = {"message": "ContactNo is Available"}
+    return JsonResponse(res)
+
+@method_decorator(csrf_exempt,name='dispatch')
+def CheckEmail(request):
+    s_email = request.POST.get("sname")
+    try:
+        Student.objects.get(email=s_email)
+        res = {"error": "Email Id already exist"}
+    except Student.DoesNotExist:
+        res = {"message": "Email Id is Available"}
+    return JsonResponse(res)
+

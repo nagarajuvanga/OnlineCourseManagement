@@ -15,6 +15,11 @@
 
     }
     </style>
+    <head>
+        <script src="{% static 'js/ajax_call.js' %}">
+
+        </script>
+    </head>
     <form action="{% url 'save_studentdata' %}" method="post">
     {% csrf_token %}
     <table align="center" border="0">
@@ -22,11 +27,27 @@
             <th rowspan="6"><img src="{% static 'images/students.png' %}"></th>
             <th class="schedule">Student Registration</th>
         </tr>
-        <tr><th class="input_fields"><input type="text" placeholder="Name" required name="p1"></th></tr>
-        <tr><th class="input_fields"><input type="number" placeholder="ContactNo" required name="p2"></th></tr>
-        <tr><th class="input_fields"><input type="email" placeholder="Email" required name="p3"></th></tr>
-        <tr><th class="input_fields"><input type="password" placeholder="password" required name="p4"></th></tr>
-        <tr><th class="input_fields"><button type="submit">Register</button></th></tr>
+        <tr><th class="input_fields">
+            <input id="name" type="text" placeholder="Name" onblur="ajaxrequest('name','http://127.0.0.1:8000/CheckName/','name1')" required name="p1">
+            <span id="name1"></span>
+        </th></tr>
+        <tr><th class="input_fields">
+            <input id="contact" type="number" onblur="ajaxrequest('contact','http://127.0.0.1:8000/CheckContact/','contact1')" placeholder="ContactNo" required name="p2">
+            <span id="contact1"></span>
+        </th></tr>
+        <tr><th class="input_fields">
+            <input id="email" type="email" onblur="ajaxrequest('email','http://127.0.0.1:8000/CheckEmail/','email1')" placeholder="Email" required name="p3">
+            <span id="email1"></span>
+        </th></tr>
+        <tr><th class="input_fields">
+            <input type="password" placeholder="password" required name="p4">
+        </th></tr>
+        <tr><th class="input_fields">
+            <button type="submit" id="b1">Register</button>
+        </th></tr>
+{#        {% if message %}#}
+{#            {{ message }}#}
+{#        {% endif %}#}
     </table>
     </form>
 {% endblock %}
